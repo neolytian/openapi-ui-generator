@@ -11,6 +11,16 @@ Based on a swagger file or swagger endpoint the Open API UI Generator creates a 
 - Open UI 5
 - Vue.js
 - React.js
+- Bootstrap
+- Semantic-UI
+- Foundation
+- Materialize
+- Material UI
+- Pure
+- Skeleton
+- UIKit
+- Milligram
+- Susy
 -
 
 ## Drivers
@@ -27,3 +37,27 @@ Based on a swagger file or swagger endpoint the Open API UI Generator creates a 
 #### Read from File
 
 #### Read from Service Description
+
+### Interpret Open API Contents
+
+#### Interpret Schema Objects
+
+#### Interpret Schema Objects as Arrays
+
+#### Detect data types of the schema objects
+
+### Framework Mapping
+
+#### OpenUI5
+
+- Start with a Master Detail Page.
+- Generate XML Views based for Viewing, Create and Edit
+- Add controls according to interpretation of Open API.
+- Bind JSON Model of Open API Rest Service
+- Generate OPA5 Tests based on OpenAPI Description & XML Views
+
+#### Vue.js
+
+#### React.js
+
+#### Bootstrap
