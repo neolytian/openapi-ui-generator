@@ -15,8 +15,8 @@
 | R-4-1          | Create Node Modules                         |             |                             |                    |
 | R-4-2          | Learn how to create CLI Tool                |             |                             |                    |
 | R-4            | CLI Tool                                    |             |                             |                    |
-| R-4            | CLI Tool                                    |             |                             |                    |
-| R-4            | CLI Tool                                    |             |                             |                    |
+| R-5            | Publish on NPM                              |             |                             |                    |
+| R-5-1          | Learn how to publish Module on NPM          |             |                             |                    |
 | R-4            | CLI Tool                                    |             |                             |                    |
 | R-4            | CLI Tool                                    |             |                             |                    |
 | R-4            | CLI Tool                                    |             |                             |                    |
