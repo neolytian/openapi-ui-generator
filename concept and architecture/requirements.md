@@ -18,4 +18,5 @@
 | R-4-2          | Learn how to create CLI Tool                           |             |                             |                    |
 | R-5            | NPM Marketplace                                        |             |                             |                    |
 | R-5-1          | Learn how to publish Module on NPM                     |             |                             |                    |
+| R-6            | Include in index.html Bootstrap                        |             |                             |                    |
 | R-X            | Generate CQRS Pattern for Attributes of Schema Objects |             |                             |                    |
