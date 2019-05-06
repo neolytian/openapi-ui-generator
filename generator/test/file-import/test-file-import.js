@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 'use strict'
-var chai = require('chai')
-var expect = chai.expect
-var objectTypes = require('object-types')
+import { expect as _expect } from 'chai'
+import objectTypes from 'object-types'
 
-var fileImporter = require('../file-import')
+import { importFile } from '../file-import'
+var expect = _expect
 
 describe('File Importer', function () {
   it('importFile returns an Object', function () {
-    var object = fileImporter.importFile()
+    var object = importFile()
     expect(objectTypes(object) == 'object')
   })
 })
