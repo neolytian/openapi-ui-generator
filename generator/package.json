@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/neolytian/openapi-ui-generator/issues"
   },
-  "homepage": "https://github.com/neolytian/openapi-ui-generator#readme"
+  "homepage": "https://github.com/neolytian/openapi-ui-generator#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2"
+  }
 }
