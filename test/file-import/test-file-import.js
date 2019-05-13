@@ -1,10 +1,8 @@
-import { expect as _expect } from "chai";
-var expect = _expect;
-import { importFile } from "./../../lib/file-import/index";
-import objectTypes from "object-types";
+const assert = require('chai').assert;
 
-describe("Ensure that imported service description is parsable", function() {
-  var file = importFile();
-
-  expect(false);
+describe('Ensure that imported service description is parsable', function () {
+  it('check if something fails', () => {
+    assert(false, 'should fail');
+    assert.isOk(false, 'should fail too');
+  });
 });

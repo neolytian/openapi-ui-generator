@@ -13,6 +13,6 @@
         "sourceType": "module"
     },
     "rules": {
-        "eol-last": ["never"]
+        "eol-last": ["off"]
     }
 }
