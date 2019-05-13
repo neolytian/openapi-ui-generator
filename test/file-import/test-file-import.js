@@ -1,17 +1,20 @@
 const assert = require('chai').assert;
-
-describe('Ensure that imported service description is parsable', function () {
-  it('check if something fails', () => {
-    assert.isOk(false, 'fail');
-  });
-});
+const expect = require('chai').expect;
+const fileImporter = require('./../../lib/file-import');
 
 describe('File Importer', () => {
-  it('Ensure that given file is found', () => {
-
+  it('Ensure that given file is found', async () => {
+    let path = './test/resources/v3.0 examples/petstore.yaml';
+    let result = await fileImporter.verifyFile(path);
+    expect(result).to.be.true;
   });
 
-  it('Ensure that wrong file throws exception', () => {
-    //
+  it('Ensure that wrong file to be rejected', async () => {
+    let path = './test/resources/v3.0 examples/FileNotFound.yaml';
+    await assert.throws(
+       async () => {
+         await fileImporter.verifyFile(path);
+       }
+    );
   });
 });
