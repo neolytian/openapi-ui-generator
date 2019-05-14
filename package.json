@@ -46,7 +46,9 @@
     "sinon": "^7.3.2"
   },
   "dependencies": {
-    "object-types": "^1.1.0"
+    "js-yaml": "^3.13.1",
+    "object-types": "^1.1.0",
+    "path": "^0.12.7"
   },
   "directories": {
     "lib": "lib",
