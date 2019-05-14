@@ -2,19 +2,15 @@ const assert = require('chai').assert;
 const expect = require('chai').expect;
 const fileImporter = require('./../../lib/file-import');
 
-describe('File Importer', () => {
+describe('File Importer - Verify File', () => {
   it('Ensure that given file is found', async () => {
     let path = './test/resources/v3.0 examples/petstore.yaml';
-    let result = await fileImporter.verifyFile(path);
+    let result = fileImporter.verifyFile(path);
     expect(result).to.be.true;
   });
 
-  it('Ensure that wrong file to be rejected', async () => {
+  it('Ensure that wrong file is not found', async () => {
     let path = './test/resources/v3.0 examples/FileNotFound.yaml';
-    await assert.throws(
-       async () => {
-         await fileImporter.verifyFile(path);
-       }
-    );
+    assert.throws(() => fileImporter.verifyFile(path));
   });
 });
