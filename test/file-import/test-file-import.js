@@ -29,6 +29,5 @@ describe('File Importer - Import File', () => {
     expect(result).to.be.an('object');
     result = JSON.stringify(result);
     assert.doesNotThrow(() => jsYaml.safeDump(result));
-    console.log(result);
   });
 });
