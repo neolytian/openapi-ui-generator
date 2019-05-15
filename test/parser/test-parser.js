@@ -12,9 +12,9 @@ describe('Parser - Verify Open API Content', () => {
     expect(result).to.be.an('object');
     expect(result.validOpenAPIVersion).to.be.true;
     expect(result.serverExists).to.be.true;
-    //expect(result.pathExits).to.be.true;
-    //expect(result.allPathsHaveHttpVerb).to.be.true;
-    //expect(result.allContentsRefSchema).to.be.true;
+    // expect(result.pathExits).to.be.true;
+    // expect(result.allPathsHaveHttpVerb).to.be.true;
+    // expect(result.allContentsRefSchema).to.be.true;
   });
 
   it('Ensure that given input json has no valid Open API Version', async () => {
@@ -24,6 +24,15 @@ describe('Parser - Verify Open API Content', () => {
 
     expect(result).to.be.an('object');
     expect(result.validOpenAPIVersion).to.be.false;
+  });
+
+  it('Ensure that given input json has no valid Servers', async () => {
+    let path = './test/resources/parser/PetStoreOutput_Invalid_servers.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyOpenApiFile(jsonInput);
+
+    expect(result).to.be.an('object');
+    expect(result.serverExists).to.be.false;
   });
 });
 
