@@ -12,7 +12,7 @@ describe('Parser - Verify Open API Content', () => {
     expect(result).to.be.an('object');
     expect(result.validOpenAPIVersion).to.be.true;
     expect(result.serverExists).to.be.true;
-    // expect(result.pathExits).to.be.true;
+    expect(result.pathExits).to.be.true;
     // expect(result.allPathsHaveHttpVerb).to.be.true;
     // expect(result.allContentsRefSchema).to.be.true;
   });
@@ -33,6 +33,15 @@ describe('Parser - Verify Open API Content', () => {
 
     expect(result).to.be.an('object');
     expect(result.serverExists).to.be.false;
+  });
+
+  it('Ensure that given input json has no paths', async () => {
+    let path = './test/resources/parser/PetStoreOutput_No_Path.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyOpenApiFile(jsonInput);
+
+    expect(result).to.be.an('object');
+    expect(result.pathExits).to.be.false;
   });
 });
 
