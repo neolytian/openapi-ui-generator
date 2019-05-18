@@ -64,59 +64,158 @@ describe('Parser - Verify Open API Content', () => {
   });
 
   describe('Parser - Verify Open API Version', () => {
-    it('Ensure that API Version is verified', () => {
-      
+    it('Ensure that API Version is verified', async () => {
+      let path = './test/resources/parser/PetStoreOutput.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyOpenApiVersion(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.true;
     });
 
-    it('Ensure that API Version is not verified', () => {
-      
+    it('Ensure that API Version is not verified', async () => {
+      let path = './test/resources/parser/PetStoreOutput_No_API_Version.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyOpenApiVersion(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.false;
     });
   });
 
   describe('Parser - Verify Server Exists', () => {
-    it('Ensure that Server Exists', () => {
-      
+    it('Ensure that Server Exists', async () => {
+      let path = './test/resources/parser/PetStoreOutput.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyIfServerExist(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.true;
     });
 
-    it('<', () => {
-      
+    it('Ensure that Server is missing', async () => {
+      let path = './test/resources/parser/PetStoreOutput_Invalid_servers.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyIfServerExist(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.false;
     });
   });
 
   describe('Parser - Verify Paths Exist', () => {
-    
+    it('ensure that paths exists', async () => {
+      let path = './test/resources/parser/PetStoreOutput.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyIfPathsExist(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.true;
+    });
+    it('ensure that paths does not exists', async () => {
+      let path = './test/resources/parser/PetStoreOutput_No_Path.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyIfPathsExist(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.false;
+    });
   });
 
   describe('Parser - Verify Paths has HTTP Methods', () => {
-    
+    it('ensure that found paths have ', async () => {
+      let path = './test/resources/parser/PetStoreOutput.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyIfPathHasHttpVerb(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.true;
+    });
+    it('ensure that no found paths have ', async () => {
+      let path = './test/resources/parser/PetStoreOutput_No_HTTPVerb_in_path.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyIfPathHasHttpVerb(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.false;
+    });
   });
 
   describe('Parser - Verify Paths References Content', () => {
-    
+    it('ensure that found paths have content ', async () => {
+      let path = './test/resources/parser/PetStoreOutput.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyIfPathReferencesContent(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.true;
+    });
+    it('ensure that found paths have no content ', async () => {
+      let path = './test/resources/parser/PetStoreOutput_Missing_Content.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let result = await parser.verifyIfPathReferencesContent(jsonInput);
+
+      expect(result).to.be.a('boolean');
+      expect(result).to.be.false;
+    });
   });
 
   describe('Parser - Verify Content References Schema', () => {
-    
+    it('ensure that found content has schema ', () => {
+
+    });
+    it('ensure that found content has no schema ', () => {
+
+    });
   });
 
   describe('Parser - Extract Paths', () => {
-    
+    it('should have found paths', () => {
+
+    });
+
+    it('should have found no paths', () => {
+
+    });
   });
 
   describe('Parser - Extract Http Methods', () => {
-    
+    it('should have found Http Methods', () => {
+
+    });
+
+    it('should have found no Http Methods', () => {
+
+    });
   });
 
   describe('Parser - Extract Responses', () => {
-    
+    it('should have found Responses', () => {
+
+    });
+
+    it('should have found no Responses', () => {
+
+    });
   });
 
   describe('Parser - Extract Content', () => {
-    
+    it('should have found Content', () => {
+
+    });
+
+    it('should have found no Content', () => {
+
+    });
   });
 
   describe('Parser - Extract Schemas', () => {
-    
-  });
+    it('should have found Schemas', () => {
 
+    });
+
+    it('should have found no Schemas', () => {
+
+    });
+  });
 });
