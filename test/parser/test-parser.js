@@ -170,8 +170,17 @@ describe('Parser - Verify Open API Content', () => {
   });
 
   describe('Parser - Extract Paths', () => {
-    it('should have found paths', () => {
+    it('should have found 2 paths', async () => {
+      let path = './test/resources/parser/PetStoreOutput.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let pathkeys = await parser.extractPaths(jsonInput);
 
+      expect(pathkeys).to.be.an('array');
+      expect(pathkeys.length).to.equal(2);
+      pathkeys.map(path => {
+        expect(path).to.be.a('string');
+        expect(path).to.not.be.an('undefined');
+      });
     });
 
     it('should have found no paths', () => {
