@@ -62,4 +62,61 @@ describe('Parser - Verify Open API Content', () => {
     expect(result).to.be.an('object');
     expect(result.allPathsRefContent).to.be.false;
   });
+
+  describe('Parser - Verify Open API Version', () => {
+    it('Ensure that API Version is verified', () => {
+      
+    });
+
+    it('Ensure that API Version is not verified', () => {
+      
+    });
+  });
+
+  describe('Parser - Verify Server Exists', () => {
+    it('Ensure that Server Exists', () => {
+      
+    });
+
+    it('<', () => {
+      
+    });
+  });
+
+  describe('Parser - Verify Paths Exist', () => {
+    
+  });
+
+  describe('Parser - Verify Paths has HTTP Methods', () => {
+    
+  });
+
+  describe('Parser - Verify Paths References Content', () => {
+    
+  });
+
+  describe('Parser - Verify Content References Schema', () => {
+    
+  });
+
+  describe('Parser - Extract Paths', () => {
+    
+  });
+
+  describe('Parser - Extract Http Methods', () => {
+    
+  });
+
+  describe('Parser - Extract Responses', () => {
+    
+  });
+
+  describe('Parser - Extract Content', () => {
+    
+  });
+
+  describe('Parser - Extract Schemas', () => {
+    
+  });
+
 });
