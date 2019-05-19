@@ -177,20 +177,39 @@ describe('Parser - Verify Open API Content', () => {
 
       expect(pathkeys).to.be.an('array');
       expect(pathkeys.length).to.equal(2);
+      expect(pathkeys.includes('/pets')).to.be.true;
+      expect(pathkeys.includes('/pets/{petId}')).to.be.true;
       pathkeys.map(path => {
         expect(path).to.be.a('string');
         expect(path).to.not.be.an('undefined');
       });
     });
 
-    it('should have found no paths', () => {
+    it('should have found no paths', async () => {
+      let path = './test/resources/parser/PetStoreOutput_No_Path.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      let pathkeys = await parser.extractPaths(jsonInput);
 
+      expect(pathkeys).to.be.an('array');
+      expect(pathkeys.length).to.equal(0);
     });
   });
 
   describe('Parser - Extract Http Methods', () => {
-    it('should have found Http Methods', () => {
+    it('should have found Http Methods', async () => {
+      let path = './test/resources/parser/PetStoreOutput.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      var pathkeys = ['/pets', '/pets/{petId}'];
+      var httpMethods = await parser.extractHttpMethods(pathkeys, jsonInput);
 
+      expect(httpMethods).to.be.an('array');
+      expect(httpMethods.length).to.equal(3);
+      httpMethods.map(httpMethod => {
+        expect(httpMethod).to.be.an('object', 'httpMethod is not an object');
+        expect(httpMethod.path).to.be.a('string', 'httpMethod.path is not a string');
+        expect(httpMethod.httpVerb).to.be.a('string', 'httpMethod.httpVerb is not a string');
+        expect(httpMethod.methodObj).to.be.an('object', 'httpMethod.methodObj is not an object');
+      });
     });
 
     it('should have found no Http Methods', () => {
