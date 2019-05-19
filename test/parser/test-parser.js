@@ -202,6 +202,8 @@ describe('Parser - Verify Open API Content', () => {
       var pathkeys = ['/pets', '/pets/{petId}'];
       var httpMethods = await parser.extractHttpMethods(pathkeys, jsonInput);
 
+      console.log(httpMethods);
+
       expect(httpMethods).to.be.an('array');
       expect(httpMethods.length).to.equal(3);
       httpMethods.map(httpMethod => {
@@ -212,18 +214,86 @@ describe('Parser - Verify Open API Content', () => {
       });
     });
 
-    it('should have found no Http Methods', () => {
+    it('should have found no Http Methods', async () => {
+      let path = './test/resources/parser/PetStoreOutput_No_HTTPVerb_in_path.json';
+      var jsonInput = fs.readFileSync(path, 'utf8');
+      var pathkeys = ['/pets', '/pets/{petId}'];
+      var httpMethods = await parser.extractHttpMethods(pathkeys, jsonInput);
 
+      expect(httpMethods).to.be.an('array');
+      expect(httpMethods.length).to.equal(0);
     });
   });
 
   describe('Parser - Extract Responses', () => {
-    it('should have found Responses', () => {
+    it('should have found Responses', async () => {
+      const httpMethods = [];
+      const httpMethod = {
+        path: '/pets/{petId}',
+        httpVerb: 'get',
+        methodObj: {
+          summary: 'Info for a specific pet',
+          operationId: 'showPetById',
+          tags: [],
+          parameters: [],
+          responses: {
+            200: {
+              description: 'description',
+              headers: {},
+              content: {}
+            },
+            default: {
+              description: 'description',
+              headers: {},
+              content: {}
+            }
+          }
+        }
+      };
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
 
+      let responses = await parser.extractResponses(httpMethods);
+
+      expect(responses).to.be.an('array');
+      expect(responses.length).to.equal(12);
+
+      responses.map(response => {
+        expect(response.path).to.be.a('string');
+        expect(response.httpVerb).to.be.a('string');
+        expect(response.statusCode).to.be.a('string');
+        expect(response.responseObj).to.be.an('object');
+      });
     });
 
-    it('should have found no Responses', () => {
+    it('should have found no Responses', async () => {
+      const httpMethods = [];
+      const httpMethod = {
+        path: '/pets/{petId}',
+        httpVerb: 'get',
+        methodObj: {
+          summary: 'Info for a specific pet',
+          operationId: 'showPetById',
+          tags: [],
+          parameters: [],
+          responses: {}
+        }
+      };
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
+      httpMethods.push(httpMethod);
 
+      let responses = await parser.extractResponses(httpMethods);
+
+      expect(responses).to.be.an('array');
+      expect(responses.length).to.equal(0);
     });
   });
 
