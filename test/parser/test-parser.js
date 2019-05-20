@@ -62,258 +62,258 @@ describe('Parser - Verify Open API Content', () => {
     expect(result).to.be.an('object');
     expect(result.allPathsRefContent).to.be.false;
   });
+});
 
-  describe('Parser - Verify Open API Version', () => {
-    it('Ensure that API Version is verified', async () => {
-      let path = './test/resources/parser/PetStoreOutput.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyOpenApiVersion(jsonInput);
+describe('Parser - Verify Open API Version', () => {
+  it('Ensure that API Version is verified', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyOpenApiVersion(jsonInput);
 
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.true;
-    });
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.true;
+  });
 
-    it('Ensure that API Version is not verified', async () => {
-      let path = './test/resources/parser/PetStoreOutput_No_API_Version.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyOpenApiVersion(jsonInput);
+  it('Ensure that API Version is not verified', async () => {
+    let path = './test/resources/parser/PetStoreOutput_No_API_Version.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyOpenApiVersion(jsonInput);
 
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.false;
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.false;
+  });
+});
+
+describe('Parser - Verify Server Exists', () => {
+  it('Ensure that Server Exists', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyIfServerExist(jsonInput);
+
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.true;
+  });
+
+  it('Ensure that Server is missing', async () => {
+    let path = './test/resources/parser/PetStoreOutput_Invalid_servers.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyIfServerExist(jsonInput);
+
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.false;
+  });
+});
+
+describe('Parser - Verify Paths Exist', () => {
+  it('ensure that paths exists', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyIfPathsExist(jsonInput);
+
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.true;
+  });
+  it('ensure that paths does not exists', async () => {
+    let path = './test/resources/parser/PetStoreOutput_No_Path.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyIfPathsExist(jsonInput);
+
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.false;
+  });
+});
+
+describe('Parser - Verify Paths has HTTP Methods', () => {
+  it('ensure that found paths have ', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyIfPathHasHttpVerb(jsonInput);
+
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.true;
+  });
+  it('ensure that no found paths have ', async () => {
+    let path = './test/resources/parser/PetStoreOutput_No_HTTPVerb_in_path.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyIfPathHasHttpVerb(jsonInput);
+
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.false;
+  });
+});
+
+describe('Parser - Verify Paths References Content', () => {
+  it('ensure that found paths have content ', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyIfPathReferencesContent(jsonInput);
+
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.true;
+  });
+  it('ensure that found paths have no content ', async () => {
+    let path = './test/resources/parser/PetStoreOutput_Missing_Content.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let result = await parser.verifyIfPathReferencesContent(jsonInput);
+
+    expect(result).to.be.a('boolean');
+    expect(result).to.be.false;
+  });
+});
+
+describe('Parser - Verify Content References Schema', () => {
+  it('ensure that found content has schema ', () => {
+
+  });
+  it('ensure that found content has no schema ', () => {
+
+  });
+});
+
+describe('Parser - Extract Paths', () => {
+  it('should have found 2 paths', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let pathkeys = await parser.extractPaths(jsonInput);
+
+    expect(pathkeys).to.be.an('array');
+    expect(pathkeys.length).to.equal(2);
+    expect(pathkeys.includes('/pets')).to.be.true;
+    expect(pathkeys.includes('/pets/{petId}')).to.be.true;
+    pathkeys.map(path => {
+      expect(path).to.be.a('string');
+      expect(path).to.not.be.an('undefined');
     });
   });
 
-  describe('Parser - Verify Server Exists', () => {
-    it('Ensure that Server Exists', async () => {
-      let path = './test/resources/parser/PetStoreOutput.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyIfServerExist(jsonInput);
+  it('should have found no paths', async () => {
+    let path = './test/resources/parser/PetStoreOutput_No_Path.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    let pathkeys = await parser.extractPaths(jsonInput);
 
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.true;
-    });
+    expect(pathkeys).to.be.an('array');
+    expect(pathkeys.length).to.equal(0);
+  });
+});
 
-    it('Ensure that Server is missing', async () => {
-      let path = './test/resources/parser/PetStoreOutput_Invalid_servers.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyIfServerExist(jsonInput);
+describe('Parser - Extract Http Methods', () => {
+  it('should have found Http Methods', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    var pathkeys = ['/pets', '/pets/{petId}'];
+    var httpMethods = await parser.extractHttpMethods(pathkeys, jsonInput);
 
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.false;
+    console.log(httpMethods);
+
+    expect(httpMethods).to.be.an('array');
+    expect(httpMethods.length).to.equal(3);
+    httpMethods.map(httpMethod => {
+      expect(httpMethod).to.be.an('object', 'httpMethod is not an object');
+      expect(httpMethod.path).to.be.a('string', 'httpMethod.path is not a string');
+      expect(httpMethod.httpVerb).to.be.a('string', 'httpMethod.httpVerb is not a string');
+      expect(httpMethod.methodObj).to.be.an('object', 'httpMethod.methodObj is not an object');
     });
   });
 
-  describe('Parser - Verify Paths Exist', () => {
-    it('ensure that paths exists', async () => {
-      let path = './test/resources/parser/PetStoreOutput.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyIfPathsExist(jsonInput);
+  it('should have found no Http Methods', async () => {
+    let path = './test/resources/parser/PetStoreOutput_No_HTTPVerb_in_path.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+    var pathkeys = ['/pets', '/pets/{petId}'];
+    var httpMethods = await parser.extractHttpMethods(pathkeys, jsonInput);
 
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.true;
-    });
-    it('ensure that paths does not exists', async () => {
-      let path = './test/resources/parser/PetStoreOutput_No_Path.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyIfPathsExist(jsonInput);
-
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.false;
-    });
+    expect(httpMethods).to.be.an('array');
+    expect(httpMethods.length).to.equal(0);
   });
+});
 
-  describe('Parser - Verify Paths has HTTP Methods', () => {
-    it('ensure that found paths have ', async () => {
-      let path = './test/resources/parser/PetStoreOutput.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyIfPathHasHttpVerb(jsonInput);
-
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.true;
-    });
-    it('ensure that no found paths have ', async () => {
-      let path = './test/resources/parser/PetStoreOutput_No_HTTPVerb_in_path.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyIfPathHasHttpVerb(jsonInput);
-
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.false;
-    });
-  });
-
-  describe('Parser - Verify Paths References Content', () => {
-    it('ensure that found paths have content ', async () => {
-      let path = './test/resources/parser/PetStoreOutput.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyIfPathReferencesContent(jsonInput);
-
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.true;
-    });
-    it('ensure that found paths have no content ', async () => {
-      let path = './test/resources/parser/PetStoreOutput_Missing_Content.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let result = await parser.verifyIfPathReferencesContent(jsonInput);
-
-      expect(result).to.be.a('boolean');
-      expect(result).to.be.false;
-    });
-  });
-
-  describe('Parser - Verify Content References Schema', () => {
-    it('ensure that found content has schema ', () => {
-
-    });
-    it('ensure that found content has no schema ', () => {
-
-    });
-  });
-
-  describe('Parser - Extract Paths', () => {
-    it('should have found 2 paths', async () => {
-      let path = './test/resources/parser/PetStoreOutput.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let pathkeys = await parser.extractPaths(jsonInput);
-
-      expect(pathkeys).to.be.an('array');
-      expect(pathkeys.length).to.equal(2);
-      expect(pathkeys.includes('/pets')).to.be.true;
-      expect(pathkeys.includes('/pets/{petId}')).to.be.true;
-      pathkeys.map(path => {
-        expect(path).to.be.a('string');
-        expect(path).to.not.be.an('undefined');
-      });
-    });
-
-    it('should have found no paths', async () => {
-      let path = './test/resources/parser/PetStoreOutput_No_Path.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      let pathkeys = await parser.extractPaths(jsonInput);
-
-      expect(pathkeys).to.be.an('array');
-      expect(pathkeys.length).to.equal(0);
-    });
-  });
-
-  describe('Parser - Extract Http Methods', () => {
-    it('should have found Http Methods', async () => {
-      let path = './test/resources/parser/PetStoreOutput.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      var pathkeys = ['/pets', '/pets/{petId}'];
-      var httpMethods = await parser.extractHttpMethods(pathkeys, jsonInput);
-
-      console.log(httpMethods);
-
-      expect(httpMethods).to.be.an('array');
-      expect(httpMethods.length).to.equal(3);
-      httpMethods.map(httpMethod => {
-        expect(httpMethod).to.be.an('object', 'httpMethod is not an object');
-        expect(httpMethod.path).to.be.a('string', 'httpMethod.path is not a string');
-        expect(httpMethod.httpVerb).to.be.a('string', 'httpMethod.httpVerb is not a string');
-        expect(httpMethod.methodObj).to.be.an('object', 'httpMethod.methodObj is not an object');
-      });
-    });
-
-    it('should have found no Http Methods', async () => {
-      let path = './test/resources/parser/PetStoreOutput_No_HTTPVerb_in_path.json';
-      var jsonInput = fs.readFileSync(path, 'utf8');
-      var pathkeys = ['/pets', '/pets/{petId}'];
-      var httpMethods = await parser.extractHttpMethods(pathkeys, jsonInput);
-
-      expect(httpMethods).to.be.an('array');
-      expect(httpMethods.length).to.equal(0);
-    });
-  });
-
-  describe('Parser - Extract Responses', () => {
-    it('should have found Responses', async () => {
-      const httpMethods = [];
-      const httpMethod = {
-        path: '/pets/{petId}',
-        httpVerb: 'get',
-        methodObj: {
-          summary: 'Info for a specific pet',
-          operationId: 'showPetById',
-          tags: [],
-          parameters: [],
-          responses: {
-            200: {
-              description: 'description',
-              headers: {},
-              content: {}
-            },
-            default: {
-              description: 'description',
-              headers: {},
-              content: {}
-            }
+describe('Parser - Extract Responses', () => {
+  it('should have found Responses', async () => {
+    const httpMethods = [];
+    const httpMethod = {
+      path: '/pets/{petId}',
+      httpVerb: 'get',
+      methodObj: {
+        summary: 'Info for a specific pet',
+        operationId: 'showPetById',
+        tags: [],
+        parameters: [],
+        responses: {
+          200: {
+            description: 'description',
+            headers: {},
+            content: {}
+          },
+          default: {
+            description: 'description',
+            headers: {},
+            content: {}
           }
         }
-      };
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
+      }
+    };
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
 
-      let responses = await parser.extractResponses(httpMethods);
+    let responses = await parser.extractResponses(httpMethods);
 
-      expect(responses).to.be.an('array');
-      expect(responses.length).to.equal(12);
+    expect(responses).to.be.an('array');
+    expect(responses.length).to.equal(12);
 
-      responses.map(response => {
-        expect(response.path).to.be.a('string');
-        expect(response.httpVerb).to.be.a('string');
-        expect(response.statusCode).to.be.a('string');
-        expect(response.responseObj).to.be.an('object');
-      });
-    });
-
-    it('should have found no Responses', async () => {
-      const httpMethods = [];
-      const httpMethod = {
-        path: '/pets/{petId}',
-        httpVerb: 'get',
-        methodObj: {
-          summary: 'Info for a specific pet',
-          operationId: 'showPetById',
-          tags: [],
-          parameters: [],
-          responses: {}
-        }
-      };
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-      httpMethods.push(httpMethod);
-
-      let responses = await parser.extractResponses(httpMethods);
-
-      expect(responses).to.be.an('array');
-      expect(responses.length).to.equal(0);
+    responses.map(response => {
+      expect(response.path).to.be.a('string');
+      expect(response.httpVerb).to.be.a('string');
+      expect(response.statusCode).to.be.a('string');
+      expect(response.responseObj).to.be.an('object');
     });
   });
 
-  describe('Parser - Extract Content', () => {
-    it('should have found Content', () => {
+  it('should have found no Responses', async () => {
+    const httpMethods = [];
+    const httpMethod = {
+      path: '/pets/{petId}',
+      httpVerb: 'get',
+      methodObj: {
+        summary: 'Info for a specific pet',
+        operationId: 'showPetById',
+        tags: [],
+        parameters: [],
+        responses: {}
+      }
+    };
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
+    httpMethods.push(httpMethod);
 
-    });
+    let responses = await parser.extractResponses(httpMethods);
 
-    it('should have found no Content', () => {
+    expect(responses).to.be.an('array');
+    expect(responses.length).to.equal(0);
+  });
+});
 
-    });
+describe('Parser - Extract Content', () => {
+  it('should have found Content', () => {
+
   });
 
-  describe('Parser - Extract Schemas', () => {
-    it('should have found Schemas', () => {
+  it('should have found no Content', () => {
 
-    });
+  });
+});
 
-    it('should have found no Schemas', () => {
+describe('Parser - Extract Schemas', () => {
+  it('should have found Schemas', () => {
 
-    });
+  });
+
+  it('should have found no Schemas', () => {
+
   });
 });
