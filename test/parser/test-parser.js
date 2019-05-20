@@ -203,8 +203,6 @@ describe('Parser - Extract Http Methods', () => {
     var pathkeys = ['/pets', '/pets/{petId}'];
     var httpMethods = await parser.extractHttpMethods(pathkeys, jsonInput);
 
-    console.log(httpMethods);
-
     expect(httpMethods).to.be.an('array');
     expect(httpMethods.length).to.equal(3);
     httpMethods.map(httpMethod => {
@@ -299,21 +297,75 @@ describe('Parser - Extract Responses', () => {
 });
 
 describe('Parser - Extract Content', () => {
-  it('should have found Content', () => {
+  it('should have found Content', async () => {
+    const responseObj = {
+      description: 'description',
+      headers: {},
+      content: {
+        'application/json': {
+          schema: {
+            '$ref': '#/components/schemas/Pets'
+          }
+        }
+      }
+    };
+    const response = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      responseObj: responseObj
+    };
 
+    const responses = [];
+    responses.push(response);
+    responses.push(response);
+    responses.push(response);
+    responses.push(response);
+    responses.push(response);
+    responses.push(response);
+
+    let contents = await parser.extractContent(responses);
+
+    expect(contents).to.be.an('array');
+    expect(contents.length).to.equal(6);
+    contents.map(content => {
+      expect(content.path).to.equal('/pets');
+      expect(content.httpVerb).to.equal('get');
+      expect(content.statusCode).to.equal(200);
+      expect(content.contentType).to.equal('application/json');
+      expect(content.contentObj).to.not.be.an('undefined');
+    });
   });
 
-  it('should have found no Content', () => {
+  it('should have found no Content', async () => {
+    const responseObj = {
+      description: 'description',
+      headers: {},
+      content: {}
+    };
+    const response = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      responseObj: responseObj
+    };
 
+    const responses = [];
+    responses.push(response);
+    responses.push(response);
+    responses.push(response);
+    responses.push(response);
+    responses.push(response);
+    responses.push(response);
   });
-});
 
-describe('Parser - Extract Schemas', () => {
-  it('should have found Schemas', () => {
+  describe('Parser - Extract Schemas', () => {
+    it('should have found Schemas', () => {
 
-  });
+    });
 
-  it('should have found no Schemas', () => {
+    it('should have found no Schemas', () => {
 
+    });
   });
 });
