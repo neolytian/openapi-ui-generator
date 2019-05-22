@@ -358,14 +358,77 @@ describe('Parser - Extract Content', () => {
     responses.push(response);
     responses.push(response);
   });
+});
 
-  describe('Parser - Extract Schemas', () => {
-    it('should have found Schemas', () => {
+describe('Parser - Extract Schemas', () => {
+  it('should have found Schemas', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
 
+    var contentObj = {
+      schema: {
+        '$ref': '#/components/schemas/Pets'
+      }
+    };
+
+    var content = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      contentType: 'application/json',
+      contentObj: contentObj
+    };
+
+    var contents = [];
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+
+    let schemas = await parser.extractSchemas(jsonInput, contents);
+
+    expect(schemas).to.be.an('array');
+    expect(schemas.length).to.equal(6);
+    schemas.map(schema => {
+      expect(schema.path).to.equal(content.path);
+      expect(schema.httpVerb).to.equal(content.httpVerb);
+      expect(schema.statusCode).to.equal(content.statusCode);
+      expect(schema.contentType).to.equal(content.contentType);
+      expect(schema.schemaName).to.equal('Pets');
+      expect(schema.schemaObj).to.not.be.an('undefined');
     });
+  });
 
-    it('should have found no Schemas', () => {
+  it('should have found no Schemas', async () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
 
-    });
+    var contentObj = {
+    };
+
+    var content = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      contentType: 'application/json',
+      contentObj: contentObj
+    };
+
+    var contents = [];
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+    contents.push(content);
+
+    let schemas = await parser.extractSchemas(jsonInput, contents);
+
+    expect(schemas).to.be.an('array');
+    expect(schemas.length).to.equal(0);
   });
 });
