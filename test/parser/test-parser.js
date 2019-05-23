@@ -362,9 +362,6 @@ describe('Parser - Extract Content', () => {
 
 describe('Parser - Extract Schemas', () => {
   it('should have found Schemas', async () => {
-    let path = './test/resources/parser/PetStoreOutput.json';
-    var jsonInput = fs.readFileSync(path, 'utf8');
-
     var contentObj = {
       schema: {
         '$ref': '#/components/schemas/Pets'
@@ -386,9 +383,7 @@ describe('Parser - Extract Schemas', () => {
     contents.push(content);
     contents.push(content);
     contents.push(content);
-    contents.push(content);
-
-    let schemas = await parser.extractSchemas(jsonInput, contents);
+    let schemas = await parser.extractSchemas(contents);
 
     expect(schemas).to.be.an('array');
     expect(schemas.length).to.equal(6);
@@ -403,9 +398,6 @@ describe('Parser - Extract Schemas', () => {
   });
 
   it('should have found no Schemas', async () => {
-    let path = './test/resources/parser/PetStoreOutput.json';
-    var jsonInput = fs.readFileSync(path, 'utf8');
-
     var contentObj = {
     };
 
@@ -426,9 +418,19 @@ describe('Parser - Extract Schemas', () => {
     contents.push(content);
     contents.push(content);
 
-    let schemas = await parser.extractSchemas(jsonInput, contents);
+    let schemas = await parser.extractSchemas(contents);
 
     expect(schemas).to.be.an('array');
     expect(schemas.length).to.equal(0);
+  });
+});
+
+describe('Parser - Extract Components', () => {
+  it('should have found components', () => {
+    
+  });
+
+  it('should not have found components', () => {
+    
   });
 });
