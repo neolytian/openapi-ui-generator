@@ -427,7 +427,28 @@ describe('Parser - Extract Schemas', () => {
 
 describe('Parser - Extract Components', () => {
   it('should have found components', () => {
-    
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+
+    var schema1 = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      contentType: 'application/json',
+      schemaName: 'Pets',
+      schemaObj: {}
+    };
+
+    var schema2 = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      contentType: 'application/json',
+      schemaName: 'Pet',
+      schemaObj: {}
+    };
+
+
   });
 
   it('should not have found components', () => {
