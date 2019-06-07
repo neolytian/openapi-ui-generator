@@ -425,7 +425,7 @@ describe('Parser - Extract Schemas', () => {
 });
 
 describe('Parser - Extract Components', () => {
-  it('should have found components', () => {
+  it('should have found components', async () => {
     let path = './test/resources/parser/PetStoreOutput.json';
     var jsonInput = fs.readFileSync(path, 'utf8');
 
@@ -454,7 +454,7 @@ describe('Parser - Extract Components', () => {
     const schemas = [];
     schemas.push(schema1);
     schemas.push(schema2);
-    let components = parser.extractComponents(jsonInput, schemas);
+    let components = await parser.extractComponents(jsonInput, schemas);
 
     expect(components).to.be.an('array');
     expect(components.length).to.equal(2);
