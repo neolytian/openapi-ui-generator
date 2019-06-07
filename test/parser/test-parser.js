@@ -398,8 +398,7 @@ describe('Parser - Extract Schemas', () => {
   });
 
   it('should have found no Schemas', async () => {
-    var contentObj = {
-    };
+    var contentObj = {};
 
     var content = {
       path: '/pets',
@@ -436,7 +435,9 @@ describe('Parser - Extract Components', () => {
       statusCode: 200,
       contentType: 'application/json',
       schemaName: 'Pets',
-      schemaObj: {}
+      schemaObj: {
+        $ref: '#/components/schemas/Pets'
+      }
     };
 
     var schema2 = {
@@ -444,14 +445,102 @@ describe('Parser - Extract Components', () => {
       httpVerb: 'get',
       statusCode: 200,
       contentType: 'application/json',
-      schemaName: 'Pet',
-      schemaObj: {}
+      schemaName: 'Pets',
+      schemaObj: {
+        $ref: '#/components/schem(as/Pets'
+      }
+    };
+
+    const schemas = [];
+    schemas.push(schema1);
+    schemas.push(schema2);
+    let components = parser.extractComponents(jsonInput, schemas);
+
+    expect(components).to.be.an('array');
+    expect(components.length).to.equal(2);
+    components.map(component => {
+      expect(component.name).to.equal('Pets');
+      expect(component.type).to.equal('array');
+      expect(component.items).to.be.an('object');
+      expect(component.items.required).to.be.an('array');
+      expect(component.items.properties).to.be.an('array');
+
+      const properties = component.items.properties;
+      properties.map(property => {
+        expect(property.name).to.not.be.a('null');
+        expect(property.datatype).to.be.not.a('null');
+
+        if (property.name === 'id') {
+          expect(property.format).to.equal('int64');
+        }
+      });
+
+    });
+
+  });
+
+  it('should have found component', () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+
+    var schema = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      contentType: 'application/json',
+      schemaName: 'Pets',
+      schemaObj: {
+        $ref: '#/components/schemas/Pets'
+      }
     };
 
 
   });
 
   it('should not have found components', () => {
-    
+
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+
+    var schema1 = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      contentType: 'application/json',
+      schemaName: 'MÖÖP2',
+      schemaObj: {
+        $ref: '#/components/schemas/MÖÖP1'
+      }
+    };
+
+    var schema2 = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      contentType: 'application/json',
+      schemaName: 'MÖÖP1',
+      schemaObj: {
+        $ref: '#/components/schemas/MÖÖP2'
+      }
+    };
+
+
+
+  });
+
+  it('should not have found component', () => {
+    let path = './test/resources/parser/PetStoreOutput.json';
+    var jsonInput = fs.readFileSync(path, 'utf8');
+
+    var schema = {
+      path: '/pets',
+      httpVerb: 'get',
+      statusCode: 200,
+      contentType: 'application/json',
+      schemaName: 'MÖÖP',
+      schemaObj: {
+        $ref: '#/components/schemas/MÖÖP'
+      }
+    };
   });
 });
