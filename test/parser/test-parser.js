@@ -443,11 +443,10 @@ describe('Parser - Extract Components', () => {
     var schema2 = {
       path: '/pets',
       httpVerb: 'get',
-      statusCode: 200,
       contentType: 'application/json',
-      schemaName: 'Pets',
+      schemaName: 'default',
       schemaObj: {
-        $ref: '#/components/schem(as/Pets'
+        $ref: "#/components/schemas/Error"
       }
     };
 
