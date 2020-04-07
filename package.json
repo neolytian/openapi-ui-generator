@@ -50,10 +50,10 @@
   },
   "dependencies": {
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "object-types": "^1.1.0",
     "path": "^0.12.7",
-    "validator": "^10.11.0"
+    "validator": "^13.0.0"
   },
   "directories": {
     "lib": "lib",
