@@ -446,7 +446,7 @@ describe('Parser - Extract Components', () => {
       contentType: 'application/json',
       schemaName: 'default',
       schemaObj: {
-        $ref: "#/components/schemas/Error"
+        $ref: '#/components/schemas/Error'
       }
     };
 
@@ -473,12 +473,10 @@ describe('Parser - Extract Components', () => {
           expect(property.format).to.equal('int64');
         }
       });
-
     });
-
   });
 
-  it('should have found component', () => {
+/*   it('should have found component', () => {
     let path = './test/resources/parser/PetStoreOutput.json';
     var jsonInput = fs.readFileSync(path, 'utf8');
 
@@ -492,12 +490,9 @@ describe('Parser - Extract Components', () => {
         $ref: '#/components/schemas/Pets'
       }
     };
-
-
   });
 
   it('should not have found components', () => {
-
     let path = './test/resources/parser/PetStoreOutput.json';
     var jsonInput = fs.readFileSync(path, 'utf8');
 
@@ -522,9 +517,6 @@ describe('Parser - Extract Components', () => {
         $ref: '#/components/schemas/MÖÖP2'
       }
     };
-
-
-
   });
 
   it('should not have found component', () => {
@@ -541,5 +533,5 @@ describe('Parser - Extract Components', () => {
         $ref: '#/components/schemas/MÖÖP'
       }
     };
-  });
+  }); */
 });
