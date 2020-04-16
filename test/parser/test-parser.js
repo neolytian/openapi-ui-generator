@@ -425,7 +425,7 @@ describe('Parser - Extract Schemas', () => {
 });
 
 describe('Parser - Extract Components', () => {
-  it('should have found components', async () => {
+  it('should have found components of type array', async () => {
     let path = './test/resources/parser/PetStoreOutput.json';
     var jsonInput = fs.readFileSync(path, 'utf8');
 
@@ -440,40 +440,26 @@ describe('Parser - Extract Components', () => {
       }
     };
 
-    var schema2 = {
-      path: '/pets',
-      httpVerb: 'get',
-      contentType: 'application/json',
-      schemaName: 'default',
-      schemaObj: {
-        $ref: '#/components/schemas/Error'
-      }
-    };
+    let component = await parser.extractComponents(jsonInput, schema1);
 
-    const schemas = [];
-    schemas.push(schema1);
-    schemas.push(schema2);
-    let components = await parser.extractComponents(jsonInput, schemas);
-
-    expect(components).to.be.an('array');
-    expect(components.length).to.equal(2);
-    components.map(component => {
-      expect(component.name).to.equal('Pets');
-      expect(component.type).to.equal('array');
-      expect(component.items).to.be.an('object');
-      expect(component.items.required).to.be.an('array');
-      expect(component.items.properties).to.be.an('array');
-
-      const properties = component.items.properties;
-      properties.map(property => {
-        expect(property.name).to.not.be.a('null');
-        expect(property.datatype).to.be.not.a('null');
-
-        if (property.name === 'id') {
-          expect(property.format).to.equal('int64');
-        }
-      });
-    });
+    expect(component.name).to.equal('Pets');
+    expect(component.type).to.equal('array');
+    expect(component.items).to.be.an('object');
+    expect(component.required).to.be.an('array');
+    expect(component.properties).to.be.an('object');
+    expect(component.referencedComponent).to.be.an('object');
+    expect(component.referencedComponent.name).to.equal('Pet');
+    expect(component.referencedComponent.type).to.equal('');
+    expect(component.referencedComponent.required).to.be.an('array').that.includes('id').and.that.includes('name');
+    expect(component.referencedComponent.properties).to.be.an('object');
+    expect(component.referencedComponent.properties).to.have.property('id');
+    expect(component.referencedComponent.properties).to.have.property('name');
+    expect(component.referencedComponent.properties).to.have.property('tag');
+    expect(component.referencedComponent.properties.id).to.have.property('type');
+    expect(component.referencedComponent.properties.id.type).to.equal('integer');
+    expect(component.referencedComponent.properties.id).to.have.property('format');
+    expect(component.referencedComponent.properties.name).to.have.property('type');
+    expect(component.referencedComponent.properties.tag).to.have.property('type');
   });
 
 /*   it('should have found component', () => {
